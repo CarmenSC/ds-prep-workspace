@@ -158,7 +158,8 @@ class MinesweeperGame:
         >>> game.check_if_mine(2, 2)
         True
         """
-        return False # TODO: check if mine is in (x,y) position
+        if self.mines[x][y] == 1:
+            return True
 
     def count_mines_around(self, x: int, y: int) -> int:
         """
@@ -176,7 +177,18 @@ class MinesweeperGame:
         >>> game.count_mines_around(1, 1)
         1
         """
-        return False # TODO: counts the mines around (x,y) position
+        surrounding_cells = self.get_surrounding_cells(x,y)
+        number_of_mines = 0
+        for i in surrounding_cells:
+                x, y = i[0], i[1]
+                if self.check_if_mine(x,y):
+                    number_of_mines += 1
+        return number_of_mines
+        
+
+
+
+
 
     def click_around(self, x: int, y: int):
         """
@@ -212,8 +224,9 @@ class MinesweeperGame:
         Hint: looking at the 'test_area_revealed' method in tests.py might 
         be helpful. 
         """
+        #TODO: reveal positions that have no mines around them
         for new_x, new_y in self.get_surrounding_cells(x, y):
-            pass # TODO: reveal positions that have no mines around them
+            self.click(new_x,new_y)
 
     def is_running(self) -> bool:
         """
